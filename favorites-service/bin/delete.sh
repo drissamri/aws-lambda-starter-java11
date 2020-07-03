@@ -1,0 +1,1 @@
+aws cloudformation delete-stack --stack-name favorites-service-stack  --region eu-central-1

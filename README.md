@@ -8,7 +8,7 @@ After adding log4j2 configuration like recommended in AWS documentation, cold st
 Java
 ```
  private static Logger logger = LogManager.getLogger();
-``
+```
 
 pom.xml
 ```

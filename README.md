@@ -4,13 +4,18 @@ Attempt #1045 to create a fully optimized AWS Lambda project to minimize cold st
 
 After adding log4j2 configuration like recommended in AWS documentation, cold starts go up by 500-1000ms.
 
+NO LOGGING DEPENDENCIES:
+![NoLogging](docs/no-log.png)
 
-Java
+WITH LOGGING DEPENDENCIES:
+![NoLogging](docs/with-log.png)
+
+###Java
 ```
  private static Logger logger = LogManager.getLogger();
 ```
 
-pom.xml
+###pom.xml
 ```
 
         <!-- Logging
@@ -38,7 +43,7 @@ pom.xml
         </dependency>-->
 ```
 
-log4j2.xml
+###log4j2.xml
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration packages="com.amazonaws.services.lambda.runtime.log4j2">

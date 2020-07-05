@@ -20,8 +20,8 @@
         <symphonia.logging.version>1.0.3</symphonia.logging.version>
 
         <!-- E2E Test Properties -->
-        <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
-        <integration.test.stack.name>feature-${maven.build.timestamp}</integration.test.stack.name>
+        <maven.build.timestamp.format>ddHHmmss</maven.build.timestamp.format>
+        <integration.test.stack.name>it-${maven.build.timestamp}</integration.test.stack.name>
         <integration.test.code.bucket>telenet-ent-cbe-deployments</integration.test.code.bucket>
     </properties>
 
@@ -86,6 +86,19 @@
             <version>3.16.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>4.3.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20200518</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -95,7 +108,6 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.1.1</version>
                 <dependencies>
-                    <!-- Gives lambda-zip assembly descriptor for .ZIP -->
                     <dependency>
                         <groupId>io.symphonia</groupId>
                         <artifactId>lambda-packaging</artifactId>
@@ -164,15 +176,9 @@
                         </goals>
                         <configuration>
                             <basedir>${project.basedir}</basedir>
-                            <executable>sam</executable>
+                            <executable>bin/deploy.sh</executable>
                             <arguments>
-                                <argument>deploy</argument>
-                                <argument>--stack-name</argument>
                                 <argument>${integration.test.stack.name}</argument>
-                                <argument>--s3-bucket</argument>
-                                <argument>${integration.test.code.bucket}</argument>
-                                <argument>--capabilities</argument>
-                                <argument>CAPABILITY_IAM</argument>
                             </arguments>
                         </configuration>
                     </execution>

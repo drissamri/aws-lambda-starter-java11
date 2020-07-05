@@ -37,7 +37,7 @@ Resources:
         Type: String
 
 Outputs:
-  ApiEndpoint:
+  AddFavoriteApiEndpoint:
     Description: "HTTP API endpoint URL"
     Value: !Sub "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/favorites"
 

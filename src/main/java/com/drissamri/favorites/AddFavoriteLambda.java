@@ -11,6 +11,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
+
 public class AddFavoriteLambda {
     private static Logger LOG = LoggerFactory.getLogger(AddFavoriteLambda.class);
 
@@ -29,6 +31,7 @@ public class AddFavoriteLambda {
         return APIGatewayV2HTTPResponse.builder()
                 .withStatusCode(200)
                 .withBody(objectMapper.writeValueAsString(savedFavorite))
+                .withHeaders(Map.of("Content-Type", "application/json"))
                 .build();
     }
 

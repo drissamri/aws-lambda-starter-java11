@@ -1,5 +1,6 @@
 package com.drissamri.favorites.config;
 
+import com.amazonaws.xray.interceptors.TracingInterceptor;
 import com.drissamri.favorites.model.Favorite;
 import com.drissamri.favorites.service.DynamoDbService;
 import com.drissamri.favorites.service.FavoriteService;
@@ -19,9 +20,11 @@ public class AppConfig {
     private static DynamoDbEnhancedClient enhancedDynamoDbClient() {
         DynamoDbClient dynamoDbClient = DynamoDbClient.builder()
                 .httpClient(UrlConnectionHttpClient.builder().build())
-                .credentialsProvider(EnvironmentVariableCredentialsProvider.create())
                 .region(Region.of(System.getenv("REGION")))
-                .overrideConfiguration(ClientOverrideConfiguration.builder().build())
+                .credentialsProvider(EnvironmentVariableCredentialsProvider.create())
+                .overrideConfiguration(ClientOverrideConfiguration.builder()
+                        .addExecutionInterceptor(new TracingInterceptor())
+                        .build())
                 .build();
         return DynamoDbEnhancedClient.builder().dynamoDbClient(dynamoDbClient).build();
     }

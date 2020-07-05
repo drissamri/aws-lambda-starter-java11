@@ -156,7 +156,26 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.0.0</version>
                 <executions>
-
+                    <execution>
+                        <id>sam-cloud-deploy</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <basedir>${project.basedir}</basedir>
+                            <executable>sam</executable>
+                            <arguments>
+                                <argument>deploy</argument>
+                                <argument>--stack-name</argument>
+                                <argument>${integration.test.stack.name}</argument>
+                                <argument>--s3-bucket</argument>
+                                <argument>${integration.test.code.bucket}</argument>
+                                <argument>--capabilities</argument>
+                                <argument>CAPABILITY_IAM</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
 
                     <execution>
                         <id>sam-cloud-delete</id>

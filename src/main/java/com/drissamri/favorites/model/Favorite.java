@@ -1,4 +1,4 @@
-package be.drissamri.favorites.model;
+package com.drissamri.favorites.model;
 
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.Key;

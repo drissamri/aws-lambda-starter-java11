@@ -29,7 +29,7 @@ public class AddFavoriteLambdaIT {
 
     @BeforeAll
     public static void setUp() {
-        stackName = System.getProperty("stackName");
+        stackName = "favorites-service-stack";
         if (stackName == null) {
             throw new RuntimeException("stackName property must be set");
         }

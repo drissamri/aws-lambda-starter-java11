@@ -1,7 +1,7 @@
-package be.drissamri.favorites.service;
+package com.drissamri.favorites.service;
 
-import be.drissamri.favorites.dto.AddFavoriteRequest;
-import be.drissamri.favorites.model.Favorite;
+import com.drissamri.favorites.dto.AddFavoriteRequest;
+import com.drissamri.favorites.model.Favorite;
 
 import java.util.UUID;
 

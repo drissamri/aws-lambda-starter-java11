@@ -1,4 +1,4 @@
-package be.drissamri.favorites.dto;
+package com.drissamri.favorites.dto;
 
 public class AddFavoriteRequest {
     private String name;

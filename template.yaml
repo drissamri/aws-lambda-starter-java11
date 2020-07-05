@@ -12,7 +12,7 @@ Resources:
     Properties:
       Runtime: java11
       MemorySize: 3008
-      Handler: be.drissamri.favorites.AddFavoriteLambda::handle
+      Handler: com.drissamri.favorites.AddFavoriteLambda::handle
       CodeUri: target/lambda.zip
       Policies:
         - DynamoDBCrudPolicy:

@@ -1,6 +1,6 @@
-package be.drissamri.favorites.service;
+package com.drissamri.favorites.service;
 
-import be.drissamri.favorites.model.Favorite;
+import com.drissamri.favorites.model.Favorite;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.Key;
 
@@ -8,7 +8,7 @@ public class DynamoDbService {
     private static DynamoDbTable<Favorite> FAVORITES_TABLE;
 
     public DynamoDbService(DynamoDbTable<Favorite> table) {
-        init(table);
+        FAVORITES_TABLE = table;
     }
 
     public Favorite save(Favorite favorite) {
@@ -21,17 +21,5 @@ public class DynamoDbService {
                 .partitionValue(id)
                 .build();
         return FAVORITES_TABLE.getItem(key);
-    }
-
-    public void init(DynamoDbTable<Favorite> favoritesTables) {
-        FAVORITES_TABLE = favoritesTables;
-        initMarshallers();
-    }
-
-    /**
-     * Eager initialize AWS SDK Marshallers by doing a call
-     */
-    private void initMarshallers() {
-        this.get("non-existing-key");
     }
 }

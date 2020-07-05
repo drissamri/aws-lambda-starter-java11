@@ -27,33 +27,4 @@ public class Favorite {
         this.name = name;
     }
 
-
-    /**
-     * DynamoDB operations
-     */
-    private static DynamoDbTable<Favorite> FAVORITES_TABLE;
-
-    public static Favorite save(Favorite favorite) {
-        FAVORITES_TABLE.putItem(favorite);
-        return favorite;
-    }
-
-    public static Favorite get(String id) {
-        Key key = Key.builder()
-                .partitionValue(id)
-                .build();
-        return FAVORITES_TABLE.getItem(key);
-    }
-
-    public static void init(DynamoDbTable<Favorite> favoritesTables) {
-        Favorite.FAVORITES_TABLE = favoritesTables;
-        initMarshallers();
-    }
-
-    /**
-     * Eager initialize AWS SDK Marshallers by doing a call
-     */
-    private static void initMarshallers() {
-       Favorite.get("non-existing-key");
-    }
 }

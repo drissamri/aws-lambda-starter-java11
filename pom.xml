@@ -15,7 +15,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <aws.log4j.version>2.13.3</aws.log4j.version>
-        <aws.dynamodb.version>2.13.49</aws.dynamodb.version>
+        <aws.sdk.version>2.13.50</aws.sdk.version>
+        <aws.lambda-events.version>3.1.0</aws.lambda-events.version>
+        <symphonia.logging.version>1.0.3</symphonia.logging.version>
+
+        <!-- E2E Test Properties -->
+        <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
+        <integration.test.stack.name>feature-${maven.build.timestamp}</integration.test.stack.name>
+        <integration.test.code.bucket>telenet-ent-cbe-deployments</integration.test.code.bucket>
     </properties>
 
     <dependencies>
@@ -30,7 +37,7 @@
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>dynamodb-enhanced</artifactId>
-            <version>${aws.dynamodb.version}</version>
+            <version>${aws.sdk.version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>apache-client</artifactId>
@@ -45,38 +52,45 @@
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>url-connection-client</artifactId>
-            <version>${aws.dynamodb.version}</version>
+            <version>${aws.sdk.version}</version>
         </dependency>
 
-        <!-- Logging
+        <dependency>
+            <groupId>io.symphonia</groupId>
+            <artifactId>lambda-logging</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+
+        <!-- Testing -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.6.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>lambda</artifactId>
+            <version>${aws.sdk.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>com.amazonaws</groupId>
-            <artifactId>aws-lambda-java-log4j2</artifactId>
-            <version>1.2.0</version>
-            <scope>runtime</scope>
+            <artifactId>aws-java-sdk-cloudformation</artifactId>
+            <version>1.11.816</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>${aws.log4j.version}</version>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.16.1</version>
+            <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>${aws.log4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j18-impl</artifactId>
-            <version>${aws.log4j.version}</version>
-            <scope>runtime</scope>
-        </dependency>-->
-
-
     </dependencies>
 
     <build>
         <plugins>
+            <!-- ZIP Packaging -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.1.1</version>
@@ -105,7 +119,6 @@
                     <finalName>lambda</finalName>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>io.github.zlika</groupId>
                 <artifactId>reproducible-build-maven-plugin</artifactId>
@@ -119,6 +132,52 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- End to End testing setup -->
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.0.0-M5</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <systemPropertyVariables>
+                        <stackName>${integration.test.stack.name}</stackName>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+
+
+                    <execution>
+                        <id>sam-cloud-delete</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <basedir>${project.basedir}</basedir>
+                            <executable>aws</executable>
+                            <arguments>
+                                <argument>cloudformation</argument>
+                                <argument>delete-stack</argument>
+                                <argument>--stack-name</argument>
+                                <argument>${integration.test.stack.name}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 

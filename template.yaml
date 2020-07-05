@@ -7,7 +7,7 @@ Globals:
     Tracing: Active
 
 Resources:
-  FavoritesService:
+  AddFavoriteLambda:
     Type: AWS::Serverless::Function
     Properties:
       Runtime: java11

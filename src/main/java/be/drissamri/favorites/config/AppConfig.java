@@ -1,6 +1,7 @@
 package be.drissamri.favorites.config;
 
 import be.drissamri.favorites.model.Favorite;
+import be.drissamri.favorites.service.DynamoDbService;
 import be.drissamri.favorites.service.FavoriteService;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,7 +33,6 @@ public class AppConfig {
                 .build();
 
         dynamoDbEnhancedClient = DynamoDbEnhancedClient.builder().dynamoDbClient(dynamoDbClient).build();
-        Favorite.init(dynamoDbEnhancedClient.table(TABLE_NAME, TableSchema.fromBean(Favorite.class)));
     }
 
     public static ObjectMapper objectMapper() {
@@ -42,8 +42,12 @@ public class AppConfig {
         return objectMapper;
     }
 
+    public static DynamoDbService dynamoDbService() {
+        return new DynamoDbService(dynamoDbEnhancedClient.table(TABLE_NAME, TableSchema.fromBean(Favorite.class)));
+    }
+
     public static FavoriteService favoriteService() {
-        return new FavoriteService();
+        return new FavoriteService(dynamoDbService());
     }
 
 

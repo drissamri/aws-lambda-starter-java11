@@ -5,14 +5,14 @@ import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.Key;
 
 public class DynamoDbService {
-    private static DynamoDbTable<Favorite> FAVORITES_TABLE;
+    private DynamoDbTable<Favorite> favoritesTable;
 
     public DynamoDbService(DynamoDbTable<Favorite> table) {
-        FAVORITES_TABLE = table;
+        this.favoritesTable = table;
     }
 
     public Favorite save(Favorite favorite) {
-        FAVORITES_TABLE.putItem(favorite);
+        favoritesTable.putItem(favorite);
         return favorite;
     }
 
@@ -20,6 +20,6 @@ public class DynamoDbService {
         Key key = Key.builder()
                 .partitionValue(id)
                 .build();
-        return FAVORITES_TABLE.getItem(key);
+        return favoritesTable.getItem(key);
     }
 }

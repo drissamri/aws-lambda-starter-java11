@@ -3,17 +3,17 @@ import {check } from 'k6';
 
 export let options = {
     stages: [
-        { duration: "20s", target: 100 }, // simulate ramp-up of traffic from 1 to 100 users over 5 minutes.
-        { duration: "10s", target: 100 }, // stay at 100 users for 10 minutes
-        { duration: "20s", target: 0 }, // ramp-down to 0 users
+        { duration: "10s", target: 100 }, // simulate ramp-up of traffic
+        { duration: "5s", target: 100 }, // stay at 100 users
+        { duration: "10s", target: 0 }, // ramp-down to 0 users
     ],
     thresholds: {
-        'http_req_duration': ['p(99)<500'], // 99% of requests must complete below 0.5s
+        'http_req_duration': ['p(99)<500'],
     }
 };
 
 export default () => {
-    var url = 'https://0a6bwowhbf.execute-api.eu-central-1.amazonaws.com/favorites';
+    var url = 'https://ln1yvwzv87.execute-api.eu-central-1.amazonaws.com/favorites';
     var payload = JSON.stringify({
         name: 'driss',
     });

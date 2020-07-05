@@ -20,8 +20,8 @@ public class AppConfig {
         DynamoDbClient dynamoDbClient = DynamoDbClient.builder()
                 .httpClient(UrlConnectionHttpClient.builder().build())
                 .credentialsProvider(EnvironmentVariableCredentialsProvider.create())
-                .overrideConfiguration(ClientOverrideConfiguration.builder().build())
                 .region(Region.of(System.getenv("REGION")))
+                .overrideConfiguration(ClientOverrideConfiguration.builder().build())
                 .build();
         return DynamoDbEnhancedClient.builder().dynamoDbClient(dynamoDbClient).build();
     }
@@ -39,6 +39,4 @@ public class AppConfig {
     public static FavoriteService favoriteService() {
         return new FavoriteService(dynamoDbService());
     }
-
-
 }

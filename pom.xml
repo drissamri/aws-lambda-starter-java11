@@ -21,7 +21,7 @@
 
         <!-- E2E Test Properties -->
         <maven.build.timestamp.format>ddHHmmss</maven.build.timestamp.format>
-        <integration.test.stack.name>${artifactId}-it-${maven.build.timestamp}</integration.test.stack.name>
+        <integration.test.stack.name>${project.artifactId}-it-${maven.build.timestamp}</integration.test.stack.name>
         <integration.test.code.bucket>telenet-ent-cbe-deployments</integration.test.code.bucket>
     </properties>
 
@@ -173,7 +173,7 @@
             <!-- End to End testing setup -->
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.0.0-M5</version>
+                <version>2.22.2</version>
                 <executions>
                     <execution>
                         <goals>
@@ -193,7 +193,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.0.0</version>
                 <executions>
-                    
+
                     <execution>
                         <id>sam-cloud-deploy</id>
                         <phase>pre-integration-test</phase>
@@ -209,7 +209,7 @@
                         </configuration>
                     </execution>
 
-                    <execution>
+                 <!--   <execution>
                         <id>cloud-load-test</id>
                         <phase>integration-test</phase>
                         <goals>
@@ -219,8 +219,7 @@
                             <basedir>${project.basedir}</basedir>
                             <executable>bin/load.sh</executable>
                         </configuration>
-                    </execution>
-
+                    </execution>-->
                     <execution>
                         <id>sam-cloud-delete</id>
                         <phase>post-integration-test</phase>
@@ -238,6 +237,7 @@
                             </arguments>
                         </configuration>
                     </execution>
+
                 </executions>
             </plugin>
 

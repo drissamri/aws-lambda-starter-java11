@@ -8,31 +8,29 @@ import com.amazonaws.services.cloudformation.model.DescribeStacksResult;
 import com.amazonaws.services.cloudformation.model.Output;
 import com.amazonaws.services.cloudformation.model.Stack;
 import org.json.JSONObject;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.lessThan;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class AddFavoriteLambdaIT {
     private static Logger LOG = LoggerFactory.getLogger(AddFavoriteLambdaIT.class);
 
     private static String stackName;
 
-    @BeforeAll
-    public static void setUp() {
-        stackName = System.getProperty("stackName");
-        if (stackName == null) {
-            throw new RuntimeException("stackName property must be set");
-        }
-    }
-
     @Test
     public void shouldStoreFavoriteSuccessfully() {
-        String endpointUrl = resolveEndpointUrl();
+        stackName = System.getProperty("stackName");
+        LOG.info("Stack name used: {}", stackName);
+
+        if (stackName == null) {
+            fail("stackName property must be set");
+        }
+
+        String endpointUrl = this.resolveEndpointUrl();
         JSONObject input = new JSONObject()
                 .put("name", "integration-driss");
 
@@ -45,8 +43,7 @@ public class AddFavoriteLambdaIT {
                 .post(endpointUrl)
         .then()
                 .statusCode(200)
-                .body("name", equalTo("integration-driss"))
-                .time(lessThan(2000L));
+                .body("name", equalTo("integration-driss"));
         //@formatter:on
     }
 

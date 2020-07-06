@@ -6,7 +6,6 @@ import org.mockito.Mock;
 class FavoriteServiceTest {
     @Mock
     private DynamoDbService dynamoDbService;
-
     private FavoriteService favoriteService = new FavoriteService(null);
 
     @Test

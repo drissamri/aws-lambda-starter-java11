@@ -15,7 +15,7 @@ Architecture Decision Record (ADR):
 - Leverage Enhanced DynamoDB client to minimize boilerplate and almost no cold start penalty
     - https://aws.amazon.com/blogs/developer/introducing-enhanced-dynamodb-client-in-the-aws-sdk-for-java-v2/
 
-- Configure as much as possible on DynamoDB do have
+- Configure as much as possible on DynamoDB (region, credentials lookup, http client) to minimize lookup delay
     - https://docs.aws.amazon.com/sdk-for-java/v2/developer-guide/client-configuration-starttime.html
     
 - Use ZIP deployment over uber/shaded-jar

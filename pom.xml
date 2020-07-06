@@ -21,7 +21,7 @@
 
         <!-- E2E Test Properties -->
         <maven.build.timestamp.format>ddHHmmss</maven.build.timestamp.format>
-        <integration.test.stack.name>it-${maven.build.timestamp}</integration.test.stack.name>
+        <integration.test.stack.name>${artifactId}-it-${maven.build.timestamp}</integration.test.stack.name>
         <integration.test.code.bucket>telenet-ent-cbe-deployments</integration.test.code.bucket>
     </properties>
 
@@ -36,8 +36,8 @@
                 <scope>import</scope>
             </dependency>
         </dependencies>
-
     </dependencyManagement>
+
     <dependencies>
         <!-- AWS Events -->
         <dependency>
@@ -193,6 +193,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.0.0</version>
                 <executions>
+                    
                     <execution>
                         <id>sam-cloud-deploy</id>
                         <phase>pre-integration-test</phase>

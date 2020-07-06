@@ -33,7 +33,7 @@ public class AddFavoriteLambda implements RequestHandler<APIGatewayV2HTTPEvent, 
     @Override
     public APIGatewayV2HTTPResponse handleRequest(APIGatewayV2HTTPEvent input, Context context) {
         Favorite savedFavorite = favoriteService.add(parseRequest(input));
-        LOG.info("Favorite: {}", savedFavorite);
+        LOG.info("Favorite created: {}", savedFavorite);
 
         APIGatewayV2HTTPResponse response;
         try {

@@ -1,4 +1,4 @@
-STACK_NAME=${1:-'favorites-service-stack'}
+STACK_NAME=${1:-'favorites-service-dev'}
 REGION=eu-central-1
 S3_DEPLOY_BUCKET=telenet-ent-cbe-deployments
 
